@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Leadership Selection</title>
+    <title>Student Council Election Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -15,17 +15,17 @@
         
         body {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #333;
             min-height: 100vh;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            color: #333;
         }
         
         .container {
-            max-width: 1200px;
             width: 100%;
+            max-width: 1100px;
             background: white;
             border-radius: 15px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
@@ -33,250 +33,342 @@
         }
         
         header {
-            background: #4e54c8;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
             color: white;
-            text-align: center;
             padding: 25px;
+            text-align: center;
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
         }
         
-        .instructions {
+        .subtitle {
             font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
+            opacity: 0.9;
         }
         
-        .admin-section {
-            padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
+        .content {
+            padding: 30px;
         }
         
-        .admin-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
+        .card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #283593;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        h3 {
+            color: #283593;
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
         }
         
         .form-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 20px;
         }
         
         label {
+            display: block;
+            margin-bottom: 8px;
             font-weight: 600;
-            margin-bottom: 5px;
         }
         
-        input, textarea {
-            padding: 10px;
+        input[type="text"], input[type="password"], textarea {
+            width: 100%;
+            padding: 14px;
             border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
         
-        textarea {
-            height: 100px;
-            resize: vertical;
+        input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+            border-color: #3949ab;
+            outline: none;
         }
         
-        .btn {
-            padding: 12px 30px;
-            background: #4e54c8;
+        button {
+            background: #3949ab;
             color: white;
             border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            padding: 14px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
         }
         
-        .btn:hover {
-            background: #3a3fb8;
-            transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+        button:hover {
+            background: #283593;
         }
         
-        .btn-admin {
-            background: #28a745;
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
         }
         
-        .btn-admin:hover {
-            background: #218838;
+        .btn-secondary:hover {
+            background: #e0e0e0;
         }
         
-        .login-section {
-            padding: 20px;
+        .error {
+            color: #d32f2f;
+            margin-top: 10px;
             text-align: center;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-            display: none;
+            font-weight: 500;
+        }
+        
+        .success {
+            color: #388e3c;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 500;
         }
         
         .categories-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 30px;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-top: 20px;
         }
         
         .category {
-            background: #f8f9fa;
-            border-radius: 10px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .category:hover {
-            transform: translateY(-5px);
-        }
-        
-        .category-title {
-            text-align: center;
-            color: #4e54c8;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4e54c8;
-            font-size: 1.5rem;
-        }
-        
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .option {
-            display: flex;
-            align-items: center;
-            padding: 15px;
             background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #e9ecef;
         }
         
-        .option:hover {
-            background: #e9ecef;
-            border-color: #4e54c8;
-        }
-        
-        .option.selected {
-            background: #d1e7ff;
-            border-color: #4e54c8;
-            box-shadow: 0 0 10px rgba(78, 84, 200, 0.3);
+        .symbols-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 15px;
         }
         
         .symbol {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 15px;
-            font-size: 1.8rem;
-            color: #4e54c8;
-        }
-        
-        .option-text {
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
-        .actions {
+            border: 2px solid #ddd;
+            border-radius: 12px;
             padding: 20px;
             text-align: center;
-            background: #f8f9fa;
-            border-top: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .btn:disabled {
-            background: #adb5bd;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        .symbol:hover {
+            border-color: #3949ab;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .symbol.selected {
+            border-color: #3949ab;
+            background-color: #e8eaf6;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .symbol i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #3949ab;
+        }
+        
+        .symbol-name {
+            font-weight: 600;
+            font-size: 18px;
         }
         
         .results {
-            padding: 30px;
             display: none;
         }
         
-        .results h2 {
-            text-align: center;
-            color: #4e54c8;
-            margin-bottom: 30px;
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
         
-        .selected-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        .result-symbol {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
-        .selected-option {
-            background: #f8f9fa;
+        .result-symbol i {
+            font-size: 24px;
+            color: #3949ab;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #f0f0f0;
             border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 10px;
+            width: 200px;
         }
         
-        .selected-option .symbol {
-            margin: 0 auto 15px;
-            font-size: 2.5rem;
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3949ab 0%, #283593 100%);
+            border-radius: 10px;
         }
         
-        .selected-title {
-            font-size: 1.3rem;
-            color: #4e54c8;
-            margin-bottom: 10px;
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
-        .selected-value {
-            font-size: 1.2rem;
-            font-weight: 500;
+        .view-toggle button {
+            width: auto;
+            margin: 0;
+            padding: 10px 20px;
+            background: #e0e0e0;
+            color: #666;
         }
         
-        .message {
-            text-align: center;
+        .view-toggle button.active {
+            background: #3949ab;
+            color: white;
+        }
+        
+        .admin-panel {
+            display: none;
+            margin-top: 30px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .admin-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-buttons button {
+            width: auto;
+            padding: 12px 25px;
+        }
+        
+        .export-btn {
+            background: #388e3c !important;
+        }
+        
+        .export-btn:hover {
+            background: #2e7d32 !important;
+        }
+        
+        .reset-btn {
+            background: #d32f2f !important;
+        }
+        
+        .reset-btn:hover {
+            background: #c62828 !important;
+        }
+        
+        .student-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
             padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-weight: 500;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
         }
         
-        .error {
-            background: #ffebee;
+        .student-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .student-item:last-child {
+            border-bottom: none;
+        }
+        
+        .voted {
+            color: #388e3c;
+            font-weight: 600;
+        }
+        
+        .not-voted {
             color: #d32f2f;
         }
         
-        .success {
-            background: #e8f5e9;
-            color: #388e3c;
+        .instructions {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .instructions h4 {
+            color: #283593;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            border-top: 1px solid #eee;
         }
         
         @media (max-width: 768px) {
-            .categories-container {
+            .symbols-container {
                 grid-template-columns: 1fr;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
-            .admin-form {
+            .admin-buttons {
                 flex-direction: column;
+            }
+            
+            .view-toggle {
+                flex-direction: column;
+            }
+            
+            .view-toggle button {
+                width: 100%;
             }
         }
     </style>
@@ -284,373 +376,696 @@
 <body>
     <div class="container">
         <header>
-            <h1>Student Leadership Selection</h1>
-            <p class="instructions">Please select one option from each of the four categories below. Your choices will be displayed for confirmation before final submission.</p>
+            <h1>Student Council Election Portal</h1>
+            <p class="subtitle">Cast your vote for your preferred symbols in each category</p>
         </header>
         
-        <div class="admin-section">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #4e54c8;">Admin Setup</h2>
-            <div class="admin-form">
+        <div class="content">
+            <!-- Admin Setup Section -->
+            <div class="card admin-setup-section">
+                <h2>Admin Election Setup</h2>
                 <div class="form-group">
                     <label for="adminPassword">Admin Password</label>
                     <input type="password" id="adminPassword" placeholder="Enter admin password">
                 </div>
+                
                 <div class="form-group">
                     <label for="studentIds">Student IDs (one per line)</label>
-                    <textarea id="studentIds" placeholder="STU001&#10;STU002&#10;STU003"></textarea>
+                    <textarea id="studentIds" rows="6" placeholder="STU001&#10;STU002&#10;STU003&#10;..."></textarea>
                 </div>
-                <button id="adminSetupBtn" class="btn btn-admin">Setup Election</button>
+                
+                <button id="adminSetupBtn">Setup Election</button>
+                <p class="error" id="adminError"></p>
+                <p class="success" id="adminSuccess"></p>
+                
+                <div class="instructions">
+                    <h4>Instructions for Admin:</h4>
+                    <ul>
+                        <li>Enter the admin password (default: admin123)</li>
+                        <li>Enter all student IDs, one per line</li>
+                        <li>Click "Setup Election" to initialize the voting system</li>
+                        <li>Share the voting URL with students: <span id="voteUrl"></span></li>
+                    </ul>
+                </div>
             </div>
-            <div id="adminMessage" class="message"></div>
-        </div>
-        
-        <div class="login-section" id="loginSection">
-            <h2 style="margin-bottom: 15px; color: #4e54c8;">Student Login</h2>
-            <div style="display: flex; justify-content: center; gap: 10px; align-items: center;">
+            
+            <!-- Login Section -->
+            <div class="card login-section" style="display: none;">
+                <h2>Student Login</h2>
                 <div class="form-group">
-                    <input type="text" id="studentId" placeholder="Enter your student ID">
+                    <label for="studentId">Student ID</label>
+                    <input type="text" id="studentId" placeholder="Enter your assigned student ID">
                 </div>
-                <button id="loginBtn" class="btn">Login</button>
+                <button id="loginBtn">Login to Vote</button>
+                <p class="error" id="loginError"></p>
             </div>
-            <div id="loginMessage" class="message"></div>
-        </div>
-        
-        <div class="categories-container" id="categoriesContainer" style="display: none;">
-            <!-- Head Boy Category -->
-            <div class="category">
-                <h2 class="category-title">Head Boy</h2>
-                <div class="options">
-                    <div class="option" data-category="head-boy" data-value="jeep">
-                        <div class="symbol">
-                            <i class="fas fa-truck"></i>
+            
+            <!-- Voting Section -->
+            <div class="card voting-section" style="display: none;">
+                <h2>Cast Your Vote</h2>
+                <p style="text-align: center; margin-bottom: 20px;">Select one symbol from each category:</p>
+                
+                <div class="categories-container">
+                    <!-- Head Boy Category -->
+                    <div class="category">
+                        <h3>Head Boy</h3>
+                        <div class="symbols-container">
+                            <div class="symbol" data-category="headBoy" data-symbol="jeep">
+                                <i class="fas fa-truck"></i>
+                                <div class="symbol-name">Jeep</div>
+                            </div>
+                            <div class="symbol" data-category="headBoy" data-symbol="eagle">
+                                <i class="fas fa-eagle"></i>
+                                <div class="symbol-name">Eagle</div>
+                            </div>
                         </div>
-                        <div class="option-text">Jeep</div>
                     </div>
-                    <div class="option" data-category="head-boy" data-value="eagle">
-                        <div class="symbol">
-                            <i class="fas fa-eagle"></i>
+                    
+                    <!-- Deputy Head Boy Category -->
+                    <div class="category">
+                        <h3>Deputy Head Boy</h3>
+                        <div class="symbols-container">
+                            <div class="symbol" data-category="deputyHeadBoy" data-symbol="wolf">
+                                <i class="fas fa-paw"></i>
+                                <div class="symbol-name">Wolf</div>
+                            </div>
+                            <div class="symbol" data-category="deputyHeadBoy" data-symbol="horse">
+                                <i class="fas fa-horse"></i>
+                                <div class="symbol-name">Horse</div>
+                            </div>
                         </div>
-                        <div class="option-text">Eagle</div>
+                    </div>
+                    
+                    <!-- Head Girl Category -->
+                    <div class="category">
+                        <h3>Head Girl</h3>
+                        <div class="symbols-container">
+                            <div class="symbol" data-category="headGirl" data-symbol="cookie">
+                                <i class="fas fa-cookie"></i>
+                                <div class="symbol-name">Cookie</div>
+                            </div>
+                            <div class="symbol" data-category="headGirl" data-symbol="basketball">
+                                <i class="fas fa-basketball-ball"></i>
+                                <div class="symbol-name">Basketball</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Deputy Head Girl Category -->
+                    <div class="category">
+                        <h3>Deputy Head Girl</h3>
+                        <div class="symbols-container">
+                            <div class="symbol" data-category="deputyHeadGirl" data-symbol="butterfly">
+                                <i class="fas fa-butterfly"></i>
+                                <div class="symbol-name">Butterfly</div>
+                            </div>
+                            <div class="symbol" data-category="deputyHeadGirl" data-symbol="eagle">
+                                <i class="fas fa-eagle"></i>
+                                <div class="symbol-name">Eagle</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="castVoteBtn" style="margin-top: 25px;">Cast Vote</button>
+                <button id="logoutBtn" class="btn-secondary" style="margin-top: 10px;">Logout</button>
+                <p class="error" id="voteError"></p>
+                <p class="success" id="voteSuccess"></p>
+            </div>
+            
+            <!-- Results Section -->
+            <div class="card results">
+                <h2>Election Results</h2>
+                <p style="text-align: center; margin-bottom: 20px;">Current voting results:</p>
+                
+                <h3>Head Boy</h3>
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-truck"></i>
+                        <span>Jeep</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="jeepCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="jeepProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-eagle"></i>
+                        <span>Eagle</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="eagleHbCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="eagleHbProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Deputy Head Boy</h3>
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-paw"></i>
+                        <span>Wolf</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="wolfCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="wolfProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-horse"></i>
+                        <span>Horse</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="horseCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="horseProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Head Girl</h3>
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-cookie"></i>
+                        <span>Cookie</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="cookieCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="cookieProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-basketball-ball"></i>
+                        <span>Basketball</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="basketballCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="basketballProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Deputy Head Girl</h3>
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-butterfly"></i>
+                        <span>Butterfly</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="butterflyCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="butterflyProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-symbol">
+                        <i class="fas fa-eagle"></i>
+                        <span>Eagle</span>
+                    </div>
+                    <div class="result-count">
+                        <span id="eagleDhgCount">0</span> votes
+                        <div class="progress-bar">
+                            <div class="progress" id="eagleDhgProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-panel" id="adminPanel">
+                    <h3>Administrator Panel</h3>
+                    <p style="text-align: center; margin-bottom: 15px;">Manage election data</p>
+                    
+                    <div class="admin-buttons">
+                        <button class="export-btn" id="exportBtn">
+                            <i class="fas fa-download"></i> Export Results
+                        </button>
+                        <button class="reset-btn" id="resetBtn">
+                            <i class="fas fa-trash"></i> Reset Election
+                        </button>
+                    </div>
+                    
+                    <h3 style="margin-top: 20px;">Student Voting Status</h3>
+                    <div class="student-list" id="studentList">
+                        <!-- Student list will be populated here -->
                     </div>
                 </div>
             </div>
             
-            <!-- Deputy Head Boy Category -->
-            <div class="category">
-                <h2 class="category-title">Deputy Head Boy</h2>
-                <div class="options">
-                    <div class="option" data-category="deputy-head-boy" data-value="wolf">
-                        <div class="symbol">
-                            <i class="fas fa-paw"></i>
-                        </div>
-                        <div class="option-text">Wolf</div>
-                    </div>
-                    <div class="option" data-category="deputy-head-boy" data-value="horse">
-                        <div class="symbol">
-                            <i class="fas fa-horse"></i>
-                        </div>
-                        <div class="option-text">Horse</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Head Girl Category -->
-            <div class="category">
-                <h2 class="category-title">Head Girl</h2>
-                <div class="options">
-                    <div class="option" data-category="head-girl" data-value="cookie">
-                        <div class="symbol">
-                            <i class="fas fa-cookie"></i>
-                        </div>
-                        <div class="option-text">Cookie</div>
-                    </div>
-                    <div class="option" data-category="head-girl" data-value="basketball">
-                        <div class="symbol">
-                            <i class="fas fa-basketball-ball"></i>
-                        </div>
-                        <div class="option-text">Basketball</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Deputy Head Girl Category -->
-            <div class="category">
-                <h2 class="category-title">Deputy Head Girl</h2>
-                <div class="options">
-                    <div class="option" data-category="deputy-head-girl" data-value="butterfly">
-                        <div class="symbol">
-                            <i class="fas fa-butterfly"></i>
-                        </div>
-                        <div class="option-text">Butterfly</div>
-                    </div>
-                    <div class="option" data-category="deputy-head-girl" data-value="eagle">
-                        <div class="symbol">
-                            <i class="fas fa-eagle"></i>
-                        </div>
-                        <div class="option-text">Eagle</div>
-                    </div>
-                </div>
+            <div class="view-toggle">
+                <button id="voteViewBtn" class="active">Voting View</button>
+                <button id="resultsViewBtn">Results View</button>
+                <button id="adminViewBtn">Admin View</button>
             </div>
         </div>
         
-        <div class="actions" id="actionsSection" style="display: none;">
-            <button id="submitBtn" class="btn" disabled>Submit Selections</button>
-        </div>
-        
-        <div class="results" id="resultsSection">
-            <h2>Your Selections</h2>
-            <div class="selected-options">
-                <div class="selected-option">
-                    <div class="symbol">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                    <div class="selected-title">Head Boy</div>
-                    <div class="selected-value" id="head-boy-selection">Not selected</div>
-                </div>
-                <div class="selected-option">
-                    <div class="symbol">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="selected-title">Deputy Head Boy</div>
-                    <div class="selected-value" id="deputy-head-boy-selection">Not selected</div>
-                </div>
-                <div class="selected-option">
-                    <div class="symbol">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="selected-title">Head Girl</div>
-                    <div class="selected-value" id="head-girl-selection">Not selected</div>
-                </div>
-                <div class="selected-option">
-                    <div class="symbol">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="selected-title">Deputy Head Girl</div>
-                    <div class="selected-value" id="deputy-head-girl-selection">Not selected</div>
-                </div>
-            </div>
-            <div class="actions" style="margin-top: 20px;">
-                <button id="changeBtn" class="btn">Change Selections</button>
-                <button id="confirmBtn" class="btn" style="margin-left: 10px;">Confirm Selections</button>
-            </div>
-        </div>
+        <footer>
+            <p>© 2023 School Student Council Elections. All rights reserved.</p>
+            <p>Each student can vote only once. Multiple students can vote from different devices.</p>
+        </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM elements
-            const adminPassword = document.getElementById('adminPassword');
-            const studentIds = document.getElementById('studentIds');
-            const adminSetupBtn = document.getElementById('adminSetupBtn');
-            const adminMessage = document.getElementById('adminMessage');
-            const loginSection = document.getElementById('loginSection');
-            const studentId = document.getElementById('studentId');
-            const loginBtn = document.getElementById('loginBtn');
-            const loginMessage = document.getElementById('loginMessage');
-            const categoriesContainer = document.getElementById('categoriesContainer');
-            const options = document.querySelectorAll('.option');
-            const submitBtn = document.getElementById('submitBtn');
-            const actionsSection = document.getElementById('actionsSection');
-            const resultsSection = document.getElementById('resultsSection');
-            const changeBtn = document.getElementById('changeBtn');
-            const confirmBtn = document.getElementById('confirmBtn');
-            
-            // State variables
-            const selections = {
-                'head-boy': null,
-                'deputy-head-boy': null,
-                'head-girl': null,
-                'deputy-head-girl': null
-            };
-            
-            let studentList = [];
-            let votedStudents = [];
-            
-            // Initialize from localStorage if available
-            if (localStorage.getItem('studentList')) {
-                studentList = JSON.parse(localStorage.getItem('studentList'));
-                votedStudents = JSON.parse(localStorage.getItem('votedStudents')) || [];
-                
-                // If election is already setup, show login section
-                if (studentList.length > 0) {
-                    adminSetupBtn.disabled = true;
-                    adminMessage.textContent = 'Election already setup. Students can now login to vote.';
-                    adminMessage.className = 'message success';
-                    loginSection.style.display = 'block';
-                }
+        // Enhanced database using localStorage with support for multiple categories
+        function initializeDatabase() {
+            if (!localStorage.getItem('votes')) {
+                localStorage.setItem('votes', JSON.stringify({
+                    // Head Boy
+                    jeep: 0,
+                    eagleHb: 0,
+                    // Deputy Head Boy
+                    wolf: 0,
+                    horse: 0,
+                    // Head Girl
+                    cookie: 0,
+                    basketball: 0,
+                    // Deputy Head Girl
+                    butterfly: 0,
+                    eagleDhg: 0
+                }));
             }
             
-            // Admin setup button click event
-            adminSetupBtn.addEventListener('click', function() {
-                if (adminPassword.value !== 'admin123') {
-                    adminMessage.textContent = 'Invalid admin password';
-                    adminMessage.className = 'message error';
-                    return;
-                }
-                
-                const ids = studentIds.value.split('\n')
-                    .map(id => id.trim())
-                    .filter(id => id !== '');
-                
-                if (ids.length === 0) {
-                    adminMessage.textContent = 'Please enter at least one student ID';
-                    adminMessage.className = 'message error';
-                    return;
-                }
-                
-                studentList = ids;
-                votedStudents = [];
-                
-                // Save to localStorage
-                localStorage.setItem('studentList', JSON.stringify(studentList));
-                localStorage.setItem('votedStudents', JSON.stringify(votedStudents));
-                
-                adminMessage.textContent = 'Election setup successfully! Students can now login to vote.';
-                adminMessage.className = 'message success';
-                adminSetupBtn.disabled = true;
-                
-                // Show login section
-                loginSection.style.display = 'block';
-            });
-            
-            // Login button click event
-            loginBtn.addEventListener('click', function() {
-                const id = studentId.value.trim();
-                
-                if (!id) {
-                    loginMessage.textContent = 'Please enter your student ID';
-                    loginMessage.className = 'message error';
-                    return;
-                }
-                
-                if (!studentList.includes(id)) {
-                    loginMessage.textContent = 'Invalid student ID';
-                    loginMessage.className = 'message error';
-                    return;
-                }
-                
-                if (votedStudents.includes(id)) {
-                    loginMessage.textContent = 'You have already voted';
-                    loginMessage.className = 'message error';
-                    return;
-                }
-                
-                // Successful login
-                loginMessage.textContent = 'Login successful! Please make your selections.';
-                loginMessage.className = 'message success';
-                
-                // Show categories and actions
-                categoriesContainer.style.display = 'grid';
-                actionsSection.style.display = 'block';
-                
-                // Store current student ID
-                localStorage.setItem('currentStudent', id);
-            });
-            
-            // Add click event to all options
-            options.forEach(option => {
-                option.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    const value = this.dataset.value;
-                    
-                    // Remove selected class from all options in this category
-                    document.querySelectorAll(`.option[data-category="${category}"]`).forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    
-                    // Add selected class to clicked option
-                    this.classList.add('selected');
-                    
-                    // Store selection
-                    selections[category] = value;
-                    
-                    // Check if all categories have a selection
-                    checkSelections();
-                });
-            });
-            
-            // Check if all categories have a selection
-            function checkSelections() {
-                const allSelected = Object.values(selections).every(value => value !== null);
-                submitBtn.disabled = !allSelected;
+            if (!localStorage.getItem('votedStudents')) {
+                localStorage.setItem('votedStudents', JSON.stringify([]));
             }
             
-            // Submit button click event
-            submitBtn.addEventListener('click', function() {
-                // Update results display
-                document.getElementById('head-boy-selection').textContent = formatSelection(selections['head-boy']);
-                document.getElementById('deputy-head-boy-selection').textContent = formatSelection(selections['deputy-head-boy']);
-                document.getElementById('head-girl-selection').textContent = formatSelection(selections['head-girl']);
-                document.getElementById('deputy-head-girl-selection').textContent = formatSelection(selections['deputy-head-girl']);
-                
-                // Show results section
-                resultsSection.style.display = 'block';
-                
-                // Scroll to results
-                resultsSection.scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // Change button click event
-            changeBtn.addEventListener('click', function() {
-                // Hide results section
-                resultsSection.style.display = 'none';
-            });
-            
-            // Confirm button click event
-            confirmBtn.addEventListener('click', function() {
-                // Record the vote
-                const currentStudent = localStorage.getItem('currentStudent');
-                votedStudents.push(currentStudent);
-                localStorage.setItem('votedStudents', JSON.stringify(votedStudents));
-                
-                // Save selections (in a real app, this would be sent to a server)
-                const studentSelections = {
-                    studentId: currentStudent,
-                    selections: {...selections},
-                    timestamp: new Date().toISOString()
-                };
-                
-                // Save to localStorage (in a real app, this would be sent to a server)
-                let allVotes = JSON.parse(localStorage.getItem('allVotes')) || [];
-                allVotes.push(studentSelections);
-                localStorage.setItem('allVotes', JSON.stringify(allVotes));
-                
-                alert('Your selections have been submitted successfully!');
-                
-                // Reset UI
-                resetUI();
-            });
-            
-            // Format selection for display
-            function formatSelection(value) {
-                return value.charAt(0).toUpperCase() + value.slice(1);
+            if (!localStorage.getItem('studentList')) {
+                localStorage.setItem('studentList', JSON.stringify([]));
             }
             
-            // Reset UI after submission
-            function resetUI() {
-                // Clear selections
-                Object.keys(selections).forEach(key => {
-                    selections[key] = null;
-                });
-                
-                // Clear selected options
-                options.forEach(option => {
-                    option.classList.remove('selected');
-                });
-                
-                // Hide categories and results
-                categoriesContainer.style.display = 'none';
-                actionsSection.style.display = 'none';
-                resultsSection.style.display = 'none';
-                
-                // Reset login
-                studentId.value = '';
-                loginMessage.textContent = '';
-                
-                // Show login section
+            if (!localStorage.getItem('electionSetup')) {
+                localStorage.setItem('electionSetup', JSON.stringify(false));
+            }
+        }
+        
+        // Get elements
+        const adminSetupSection = document.querySelector('.admin-setup-section');
+        const loginSection = document.querySelector('.login-section');
+        const votingSection = document.querySelector('.voting-section');
+        const resultsSection = document.querySelector('.results');
+        const adminPanel = document.getElementById('adminPanel');
+        const studentList = document.getElementById('studentList');
+        const voteUrl = document.getElementById('voteUrl');
+        const adminSetupBtn = document.getElementById('adminSetupBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const castVoteBtn = document.getElementById('castVoteBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const adminError = document.getElementById('adminError');
+        const adminSuccess = document.getElementById('adminSuccess');
+        const loginError = document.getElementById('loginError');
+        const voteError = document.getElementById('voteError');
+        const voteSuccess = document.getElementById('voteSuccess');
+        const symbols = document.querySelectorAll('.symbol');
+        const voteViewBtn = document.getElementById('voteViewBtn');
+        const resultsViewBtn = document.getElementById('resultsViewBtn');
+        const adminViewBtn = document.getElementById('adminViewBtn');
+        const adminPassword = document.getElementById('adminPassword');
+        const studentIds = document.getElementById('studentIds');
+        const studentId = document.getElementById('studentId');
+        
+        // State variables
+        let currentStudentId = '';
+        let selectedSymbols = {
+            headBoy: null,
+            deputyHeadBoy: null,
+            headGirl: null,
+            deputyHeadGirl: null
+        };
+        
+        // Initialize the database
+        initializeDatabase();
+        
+        // Display the voting URL
+        voteUrl.textContent = window.location.href;
+        
+        // Check if election is already setup
+        window.addEventListener('load', () => {
+            const electionSetup = JSON.parse(localStorage.getItem('electionSetup'));
+            const studentListData = JSON.parse(localStorage.getItem('studentList'));
+            
+            if (electionSetup && studentListData.length > 0) {
+                adminSetupSection.style.display = 'none';
                 loginSection.style.display = 'block';
             }
         });
+        
+        // Admin setup button event listener
+        adminSetupBtn.addEventListener('click', () => {
+            const password = adminPassword.value;
+            const ids = studentIds.value.split('\n')
+                .map(id => id.trim())
+                .filter(id => id !== '');
+            
+            if (password !== 'admin123') {
+                adminError.textContent = 'Invalid admin password';
+                return;
+            }
+            
+            if (ids.length === 0) {
+                adminError.textContent = 'Please enter at least one student ID';
+                return;
+            }
+            
+            localStorage.setItem('studentList', JSON.stringify(ids));
+            localStorage.setItem('electionSetup', JSON.stringify(true));
+            
+            adminError.textContent = '';
+            adminSuccess.textContent = 'Election setup successfully! Students can now vote.';
+            
+            // Show login section after a delay
+            setTimeout(() => {
+                adminSetupSection.style.display = 'none';
+                loginSection.style.display = 'block';
+            }, 1500);
+        });
+        
+        // Login button event listener
+        loginBtn.addEventListener('click', () => {
+            const studentIdValue = studentId.value.trim().toUpperCase();
+            
+            if (!studentIdValue) {
+                loginError.textContent = 'Please enter your Student ID';
+                return;
+            }
+            
+            // Check if student ID is valid
+            const studentListData = JSON.parse(localStorage.getItem('studentList'));
+            if (studentListData.length === 0) {
+                loginError.textContent = 'Election not setup yet. Please contact administrator.';
+                return;
+            }
+            
+            if (!studentListData.includes(studentIdValue)) {
+                loginError.textContent = 'Invalid Student ID. Please check your ID and try again.';
+                return;
+            }
+            
+            // Check if student has already voted
+            const votedStudents = JSON.parse(localStorage.getItem('votedStudents'));
+            if (votedStudents.includes(studentIdValue)) {
+                loginError.textContent = 'You have already voted. Each student can only vote once.';
+                return;
+            }
+            
+            currentStudentId = studentIdValue;
+            loginError.textContent = '';
+            loginSection.style.display = 'none';
+            votingSection.style.display = 'block';
+        });
+        
+        // Logout button event listener
+        logoutBtn.addEventListener('click', () => {
+            // Clear selection
+            symbols.forEach(symbol => {
+                symbol.classList.remove('selected');
+            });
+            selectedSymbols = {
+                headBoy: null,
+                deputyHeadBoy: null,
+                headGirl: null,
+                deputyHeadGirl: null
+            };
+            
+            // Clear messages
+            voteError.textContent = '';
+            voteSuccess.textContent = '';
+            
+            // Enable voting buttons
+            symbols.forEach(symbol => {
+                symbol.style.pointerEvents = 'auto';
+            });
+            castVoteBtn.disabled = false;
+            
+            // Return to login
+            votingSection.style.display = 'none';
+            loginSection.style.display = 'block';
+            studentId.value = '';
+        });
+        
+        // Symbol selection
+        symbols.forEach(symbol => {
+            symbol.addEventListener('click', () => {
+                const category = symbol.getAttribute('data-category');
+                const symbolValue = symbol.getAttribute('data-symbol');
+                
+                // Remove selected class from all symbols in the same category
+                document.querySelectorAll(`.symbol[data-category="${category}"]`).forEach(s => {
+                    s.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked symbol
+                symbol.classList.add('selected');
+                
+                // Set selected symbol
+                selectedSymbols[category] = symbolValue;
+                voteError.textContent = '';
+            });
+        });
+        
+        // Cast vote button
+        castVoteBtn.addEventListener('click', () => {
+            // Check if all categories have a selection
+            for (const category in selectedSymbols) {
+                if (selectedSymbols[category] === null) {
+                    voteError.textContent = 'Please select one symbol from each category';
+                    return;
+                }
+            }
+            
+            // Record the votes
+            const votes = JSON.parse(localStorage.getItem('votes'));
+            
+            // Head Boy
+            if (selectedSymbols.headBoy === 'jeep') votes.jeep += 1;
+            if (selectedSymbols.headBoy === 'eagle') votes.eagleHb += 1;
+            
+            // Deputy Head Boy
+            if (selectedSymbols.deputyHeadBoy === 'wolf') votes.wolf += 1;
+            if (selectedSymbols.deputyHeadBoy === 'horse') votes.horse += 1;
+            
+            // Head Girl
+            if (selectedSymbols.headGirl === 'cookie') votes.cookie += 1;
+            if (selectedSymbols.headGirl === 'basketball') votes.basketball += 1;
+            
+            // Deputy Head Girl
+            if (selectedSymbols.deputyHeadGirl === 'butterfly') votes.butterfly += 1;
+            if (selectedSymbols.deputyHeadGirl === 'eagle') votes.eagleDhg += 1;
+            
+            localStorage.setItem('votes', JSON.stringify(votes));
+            
+            // Record that this student has voted
+            const votedStudents = JSON.parse(localStorage.getItem('votedStudents'));
+            votedStudents.push(currentStudentId);
+            localStorage.setItem('votedStudents', JSON.stringify(votedStudents));
+            
+            // Show success message
+            voteSuccess.textContent = 'Your vote has been cast successfully!';
+            voteError.textContent = '';
+            
+            // Update results display
+            updateResults();
+            
+            // Disable voting buttons
+            symbols.forEach(symbol => {
+                symbol.style.pointerEvents = 'none';
+            });
+            castVoteBtn.disabled = true;
+        });
+        
+        // Export results button
+        exportBtn.addEventListener('click', () => {
+            const votes = JSON.parse(localStorage.getItem('votes'));
+            const votedStudents = JSON.parse(localStorage.getItem('votedStudents'));
+            const studentListData = JSON.parse(localStorage.getItem('studentList'));
+            
+            let csvContent = "Election Results\n\n";
+            
+            // Head Boy results
+            csvContent += "Head Boy\n";
+            csvContent += "Symbol,Votes,Percentage\n";
+            const totalVotes = votedStudents.length;
+            const hbTotal = votes.jeep + votes.eagleHb;
+            csvContent += `Jeep,${votes.jeep},${hbTotal > 0 ? (votes.jeep/hbTotal*100).toFixed(1) : 0}%\n`;
+            csvContent += `Eagle,${votes.eagleHb},${hbTotal > 0 ? (votes.eagleHb/hbTotal*100).toFixed(1) : 0}%\n\n`;
+            
+            // Deputy Head Boy results
+            csvContent += "Deputy Head Boy\n";
+            csvContent += "Symbol,Votes,Percentage\n";
+            const dhbTotal = votes.wolf + votes.horse;
+            csvContent += `Wolf,${votes.wolf},${dhbTotal > 0 ? (votes.wolf/dhbTotal*100).toFixed(1) : 0}%\n`;
+            csvContent += `Horse,${votes.horse},${dhbTotal > 0 ? (votes.horse/dhbTotal*100).toFixed(1) : 0}%\n\n`;
+            
+            // Head Girl results
+            csvContent += "Head Girl\n";
+            csvContent += "Symbol,Votes,Percentage\n";
+            const hgTotal = votes.cookie + votes.basketball;
+            csvContent += `Cookie,${votes.cookie},${hgTotal > 0 ? (votes.cookie/hgTotal*100).toFixed(1) : 0}%\n`;
+            csvContent += `Basketball,${votes.basketball},${hgTotal > 0 ? (votes.basketball/hgTotal*100).toFixed(1) : 0}%\n\n`;
+            
+            // Deputy Head Girl results
+            csvContent += "Deputy Head Girl\n";
+            csvContent += "Symbol,Votes,Percentage\n";
+            const dhgTotal = votes.butterfly + votes.eagleDhg;
+            csvContent += `Butterfly,${votes.butterfly},${dhgTotal > 0 ? (votes.butterfly/dhgTotal*100).toFixed(1) : 0}%\n`;
+            csvContent += `Eagle,${votes.eagleDhg},${dhgTotal > 0 ? (votes.eagleDhg/dhgTotal*100).toFixed(1) : 0}%\n\n`;
+            
+            csvContent += `Total Votes,${totalVotes}\n\n`;
+            csvContent += "Student Voting Status\n";
+            csvContent += "Student ID,Status\n";
+            
+            studentListData.forEach(student => {
+                csvContent += `${student},${votedStudents.includes(student) ? "Voted" : "Not Voted"}\n`;
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "election_results.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+        
+        // Reset election button
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset the election? This will clear all votes and cannot be undone.')) {
+                localStorage.removeItem('votes');
+                localStorage.removeItem('votedStudents');
+                localStorage.setItem('electionSetup', JSON.stringify(false));
+                initializeDatabase();
+                updateResults();
+                updateStudentList();
+                
+                // Reset UI
+                symbols.forEach(symbol => {
+                    symbol.classList.remove('selected');
+                    symbol.style.pointerEvents = 'auto';
+                });
+                voteError.textContent = '';
+                voteSuccess.textContent = '';
+                castVoteBtn.disabled = false;
+                loginSection.style.display = 'none';
+                votingSection.style.display = 'none';
+                adminSetupSection.style.display = 'block';
+                studentId.value = '';
+                
+                alert('Election has been reset. Please set up the election again.');
+            }
+        });
+        
+        // Update results display
+        function updateResults() {
+            const votes = JSON.parse(localStorage.getItem('votes'));
+            
+            // Update vote counts
+            document.getElementById('jeepCount').textContent = votes.jeep;
+            document.getElementById('eagleHbCount').textContent = votes.eagleHb;
+            document.getElementById('wolfCount').textContent = votes.wolf;
+            document.getElementById('horseCount').textContent = votes.horse;
+            document.getElementById('cookieCount').textContent = votes.cookie;
+            document.getElementById('basketballCount').textContent = votes.basketball;
+            document.getElementById('butterflyCount').textContent = votes.butterfly;
+            document.getElementById('eagleDhgCount').textContent = votes.eagleDhg;
+            
+            // Update progress bars
+            const hbTotal = votes.jeep + votes.eagleHb;
+            document.getElementById('jeepProgress').style.width = hbTotal > 0 ? `${votes.jeep/hbTotal*100}%` : '0%';
+            document.getElementById('eagleHbProgress').style.width = hbTotal > 0 ? `${votes.eagleHb/hbTotal*100}%` : '0%';
+            
+            const dhbTotal = votes.wolf + votes.horse;
+            document.getElementById('wolfProgress').style.width = dhbTotal > 0 ? `${votes.wolf/dhbTotal*100}%` : '0%';
+            document.getElementById('horseProgress').style.width = dhbTotal > 0 ? `${votes.horse/dhbTotal*100}%` : '0%';
+            
+            const hgTotal = votes.cookie + votes.basketball;
+            document.getElementById('cookieProgress').style.width = hgTotal > 0 ? `${votes.cookie/hgTotal*100}%` : '0%';
+            document.getElementById('basketballProgress').style.width = hgTotal > 0 ? `${votes.basketball/hgTotal*100}%` : '0%';
+            
+            const dhgTotal = votes.butterfly + votes.eagleDhg;
+            document.getElementById('butterflyProgress').style.width = dhgTotal > 0 ? `${votes.butterfly/dhgTotal*100}%` : '0%';
+            document.getElementById('eagleDhgProgress').style.width = dhgTotal > 0 ? `${votes.eagleDhg/dhgTotal*100}%` : '0%';
+        }
+        
+        // Update student list display
+        function updateStudentList() {
+            const studentListData = JSON.parse(localStorage.getItem('studentList'));
+            const votedStudents = JSON.parse(localStorage.getItem('votedStudents'));
+            
+            studentList.innerHTML = '';
+            
+            studentListData.forEach(student => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                
+                const status = votedStudents.includes(student) ? 
+                    `<span class="voted">Voted</span>` : 
+                    `<span class="not-voted">Not Voted</span>`;
+                
+                studentItem.innerHTML = `
+                    <span>${student}</span>
+                    ${status}
+                `;
+                
+                studentList.appendChild(studentItem);
+            });
+        }
+        
+        // View toggle buttons
+        voteViewBtn.addEventListener('click', () => {
+            votingSection.style.display = 'block';
+            resultsSection.style.display = 'none';
+            adminPanel.style.display = 'none';
+            voteViewBtn.classList.add('active');
+            resultsViewBtn.classList.remove('active');
+            adminViewBtn.classList.remove('active');
+        });
+        
+        resultsViewBtn.addEventListener('click', () => {
+            votingSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+            adminPanel.style.display = 'none';
+            voteViewBtn.classList.remove('active');
+            resultsViewBtn.classList.add('active');
+            adminViewBtn.classList.remove('active');
+            updateResults();
+        });
+        
+        adminViewBtn.addEventListener('click', () => {
+            // Simple password protection for admin view
+            const password = prompt('Enter admin password:');
+            if (password === 'admin123') {
+                votingSection.style.display = 'none';
+                resultsSection.style.display = 'block';
+                adminPanel.style.display = 'block';
+                voteViewBtn.classList.remove('active');
+                resultsViewBtn.classList.remove('active');
+                adminViewBtn.classList.add('active');
+                updateResults();
+                updateStudentList();
+            } else {
+                alert('Invalid admin password');
+            }
+        });
+        
+        // Initial update of results
+        updateResults();
     </script>
 </body>
 </html>
