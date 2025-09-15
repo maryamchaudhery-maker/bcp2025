@@ -51,6 +51,76 @@
             line-height: 1.6;
         }
         
+        .admin-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        input, textarea {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: #4e54c8;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            background: #3a3fb8;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-admin {
+            background: #28a745;
+        }
+        
+        .btn-admin:hover {
+            background: #218838;
+        }
+        
+        .login-section {
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: none;
+        }
+        
         .categories-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -130,24 +200,6 @@
             border-top: 1px solid #e9ecef;
         }
         
-        .btn {
-            padding: 12px 30px;
-            background: #4e54c8;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn:hover {
-            background: #3a3fb8;
-            transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
-        }
-        
         .btn:disabled {
             background: #adb5bd;
             cursor: not-allowed;
@@ -196,6 +248,24 @@
             font-weight: 500;
         }
         
+        .message {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+        
         @media (max-width: 768px) {
             .categories-container {
                 grid-template-columns: 1fr;
@@ -203,6 +273,10 @@
             
             h1 {
                 font-size: 2rem;
+            }
+            
+            .admin-form {
+                flex-direction: column;
             }
         }
     </style>
@@ -214,7 +288,34 @@
             <p class="instructions">Please select one option from each of the four categories below. Your choices will be displayed for confirmation before final submission.</p>
         </header>
         
-        <div class="categories-container">
+        <div class="admin-section">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #4e54c8;">Admin Setup</h2>
+            <div class="admin-form">
+                <div class="form-group">
+                    <label for="adminPassword">Admin Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter admin password">
+                </div>
+                <div class="form-group">
+                    <label for="studentIds">Student IDs (one per line)</label>
+                    <textarea id="studentIds" placeholder="STU001&#10;STU002&#10;STU003"></textarea>
+                </div>
+                <button id="adminSetupBtn" class="btn btn-admin">Setup Election</button>
+            </div>
+            <div id="adminMessage" class="message"></div>
+        </div>
+        
+        <div class="login-section" id="loginSection">
+            <h2 style="margin-bottom: 15px; color: #4e54c8;">Student Login</h2>
+            <div style="display: flex; justify-content: center; gap: 10px; align-items: center;">
+                <div class="form-group">
+                    <input type="text" id="studentId" placeholder="Enter your student ID">
+                </div>
+                <button id="loginBtn" class="btn">Login</button>
+            </div>
+            <div id="loginMessage" class="message"></div>
+        </div>
+        
+        <div class="categories-container" id="categoriesContainer" style="display: none;">
             <!-- Head Boy Category -->
             <div class="category">
                 <h2 class="category-title">Head Boy</h2>
@@ -292,7 +393,7 @@
             </div>
         </div>
         
-        <div class="actions">
+        <div class="actions" id="actionsSection" style="display: none;">
             <button id="submitBtn" class="btn" disabled>Submit Selections</button>
         </div>
         
@@ -337,18 +438,114 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const adminPassword = document.getElementById('adminPassword');
+            const studentIds = document.getElementById('studentIds');
+            const adminSetupBtn = document.getElementById('adminSetupBtn');
+            const adminMessage = document.getElementById('adminMessage');
+            const loginSection = document.getElementById('loginSection');
+            const studentId = document.getElementById('studentId');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginMessage = document.getElementById('loginMessage');
+            const categoriesContainer = document.getElementById('categoriesContainer');
             const options = document.querySelectorAll('.option');
             const submitBtn = document.getElementById('submitBtn');
+            const actionsSection = document.getElementById('actionsSection');
             const resultsSection = document.getElementById('resultsSection');
             const changeBtn = document.getElementById('changeBtn');
             const confirmBtn = document.getElementById('confirmBtn');
             
+            // State variables
             const selections = {
                 'head-boy': null,
                 'deputy-head-boy': null,
                 'head-girl': null,
                 'deputy-head-girl': null
             };
+            
+            let studentList = [];
+            let votedStudents = [];
+            
+            // Initialize from localStorage if available
+            if (localStorage.getItem('studentList')) {
+                studentList = JSON.parse(localStorage.getItem('studentList'));
+                votedStudents = JSON.parse(localStorage.getItem('votedStudents')) || [];
+                
+                // If election is already setup, show login section
+                if (studentList.length > 0) {
+                    adminSetupBtn.disabled = true;
+                    adminMessage.textContent = 'Election already setup. Students can now login to vote.';
+                    adminMessage.className = 'message success';
+                    loginSection.style.display = 'block';
+                }
+            }
+            
+            // Admin setup button click event
+            adminSetupBtn.addEventListener('click', function() {
+                if (adminPassword.value !== 'admin123') {
+                    adminMessage.textContent = 'Invalid admin password';
+                    adminMessage.className = 'message error';
+                    return;
+                }
+                
+                const ids = studentIds.value.split('\n')
+                    .map(id => id.trim())
+                    .filter(id => id !== '');
+                
+                if (ids.length === 0) {
+                    adminMessage.textContent = 'Please enter at least one student ID';
+                    adminMessage.className = 'message error';
+                    return;
+                }
+                
+                studentList = ids;
+                votedStudents = [];
+                
+                // Save to localStorage
+                localStorage.setItem('studentList', JSON.stringify(studentList));
+                localStorage.setItem('votedStudents', JSON.stringify(votedStudents));
+                
+                adminMessage.textContent = 'Election setup successfully! Students can now login to vote.';
+                adminMessage.className = 'message success';
+                adminSetupBtn.disabled = true;
+                
+                // Show login section
+                loginSection.style.display = 'block';
+            });
+            
+            // Login button click event
+            loginBtn.addEventListener('click', function() {
+                const id = studentId.value.trim();
+                
+                if (!id) {
+                    loginMessage.textContent = 'Please enter your student ID';
+                    loginMessage.className = 'message error';
+                    return;
+                }
+                
+                if (!studentList.includes(id)) {
+                    loginMessage.textContent = 'Invalid student ID';
+                    loginMessage.className = 'message error';
+                    return;
+                }
+                
+                if (votedStudents.includes(id)) {
+                    loginMessage.textContent = 'You have already voted';
+                    loginMessage.className = 'message error';
+                    return;
+                }
+                
+                // Successful login
+                loginMessage.textContent = 'Login successful! Please make your selections.';
+                loginMessage.className = 'message success';
+                
+                // Show categories and actions
+                categoriesContainer.style.display = 'grid';
+                actionsSection.style.display = 'block';
+                
+                // Store current student ID
+                localStorage.setItem('currentStudent', id);
+            });
             
             // Add click event to all options
             options.forEach(option => {
@@ -401,17 +598,59 @@
             
             // Confirm button click event
             confirmBtn.addEventListener('click', function() {
+                // Record the vote
+                const currentStudent = localStorage.getItem('currentStudent');
+                votedStudents.push(currentStudent);
+                localStorage.setItem('votedStudents', JSON.stringify(votedStudents));
+                
+                // Save selections (in a real app, this would be sent to a server)
+                const studentSelections = {
+                    studentId: currentStudent,
+                    selections: {...selections},
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Save to localStorage (in a real app, this would be sent to a server)
+                let allVotes = JSON.parse(localStorage.getItem('allVotes')) || [];
+                allVotes.push(studentSelections);
+                localStorage.setItem('allVotes', JSON.stringify(allVotes));
+                
                 alert('Your selections have been submitted successfully!');
-                // Here you would typically send the data to a server
-                console.log('Selections:', selections);
+                
+                // Reset UI
+                resetUI();
             });
             
             // Format selection for display
             function formatSelection(value) {
                 return value.charAt(0).toUpperCase() + value.slice(1);
             }
+            
+            // Reset UI after submission
+            function resetUI() {
+                // Clear selections
+                Object.keys(selections).forEach(key => {
+                    selections[key] = null;
+                });
+                
+                // Clear selected options
+                options.forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Hide categories and results
+                categoriesContainer.style.display = 'none';
+                actionsSection.style.display = 'none';
+                resultsSection.style.display = 'none';
+                
+                // Reset login
+                studentId.value = '';
+                loginMessage.textContent = '';
+                
+                // Show login section
+                loginSection.style.display = 'block';
+            }
         });
     </script>
 </body>
 </html>
-
