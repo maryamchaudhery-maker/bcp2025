@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Leadership Selection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: #4e54c8;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .category {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-title {
+            text-align: center;
+            color: #4e54c8;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4e54c8;
+            font-size: 1.5rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            border-color: #4e54c8;
+        }
+        
+        .option.selected {
+            background: #d1e7ff;
+            border-color: #4e54c8;
+            box-shadow: 0 0 10px rgba(78, 84, 200, 0.3);
+        }
+        
+        .symbol {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: #4e54c8;
+        }
+        
+        .option-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .actions {
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: #4e54c8;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            background: #3a3fb8;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .results {
+            padding: 30px;
+            display: none;
+        }
+        
+        .results h2 {
+            text-align: center;
+            color: #4e54c8;
+            margin-bottom: 30px;
+        }
+        
+        .selected-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .selected-option {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .selected-option .symbol {
+            margin: 0 auto 15px;
+            font-size: 2.5rem;
+        }
+        
+        .selected-title {
+            font-size: 1.3rem;
+            color: #4e54c8;
+            margin-bottom: 10px;
+        }
+        
+        .selected-value {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .categories-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Leadership Selection</h1>
+            <p class="instructions">Please select one option from each of the four categories below. Your choices will be displayed for confirmation before final submission.</p>
+        </header>
+        
+        <div class="categories-container">
+            <!-- Head Boy Category -->
+            <div class="category">
+                <h2 class="category-title">Head Boy</h2>
+                <div class="options">
+                    <div class="option" data-category="head-boy" data-value="jeep">
+                        <div class="symbol">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="option-text">Jeep</div>
+                    </div>
+                    <div class="option" data-category="head-boy" data-value="eagle">
+                        <div class="symbol">
+                            <i class="fas fa-eagle"></i>
+                        </div>
+                        <div class="option-text">Eagle</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deputy Head Boy Category -->
+            <div class="category">
+                <h2 class="category-title">Deputy Head Boy</h2>
+                <div class="options">
+                    <div class="option" data-category="deputy-head-boy" data-value="wolf">
+                        <div class="symbol">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div class="option-text">Wolf</div>
+                    </div>
+                    <div class="option" data-category="deputy-head-boy" data-value="horse">
+                        <div class="symbol">
+                            <i class="fas fa-horse"></i>
+                        </div>
+                        <div class="option-text">Horse</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Head Girl Category -->
+            <div class="category">
+                <h2 class="category-title">Head Girl</h2>
+                <div class="options">
+                    <div class="option" data-category="head-girl" data-value="cookie">
+                        <div class="symbol">
+                            <i class="fas fa-cookie"></i>
+                        </div>
+                        <div class="option-text">Cookie</div>
+                    </div>
+                    <div class="option" data-category="head-girl" data-value="basketball">
+                        <div class="symbol">
+                            <i class="fas fa-basketball-ball"></i>
+                        </div>
+                        <div class="option-text">Basketball</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deputy Head Girl Category -->
+            <div class="category">
+                <h2 class="category-title">Deputy Head Girl</h2>
+                <div class="options">
+                    <div class="option" data-category="deputy-head-girl" data-value="butterfly">
+                        <div class="symbol">
+                            <i class="fas fa-butterfly"></i>
+                        </div>
+                        <div class="option-text">Butterfly</div>
+                    </div>
+                    <div class="option" data-category="deputy-head-girl" data-value="eagle">
+                        <div class="symbol">
+                            <i class="fas fa-eagle"></i>
+                        </div>
+                        <div class="option-text">Eagle</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button id="submitBtn" class="btn" disabled>Submit Selections</button>
+        </div>
+        
+        <div class="results" id="resultsSection">
+            <h2>Your Selections</h2>
+            <div class="selected-options">
+                <div class="selected-option">
+                    <div class="symbol">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="selected-title">Head Boy</div>
+                    <div class="selected-value" id="head-boy-selection">Not selected</div>
+                </div>
+                <div class="selected-option">
+                    <div class="symbol">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="selected-title">Deputy Head Boy</div>
+                    <div class="selected-value" id="deputy-head-boy-selection">Not selected</div>
+                </div>
+                <div class="selected-option">
+                    <div class="symbol">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="selected-title">Head Girl</div>
+                    <div class="selected-value" id="head-girl-selection">Not selected</div>
+                </div>
+                <div class="selected-option">
+                    <div class="symbol">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="selected-title">Deputy Head Girl</div>
+                    <div class="selected-value" id="deputy-head-girl-selection">Not selected</div>
+                </div>
+            </div>
+            <div class="actions" style="margin-top: 20px;">
+                <button id="changeBtn" class="btn">Change Selections</button>
+                <button id="confirmBtn" class="btn" style="margin-left: 10px;">Confirm Selections</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const options = document.querySelectorAll('.option');
+            const submitBtn = document.getElementById('submitBtn');
+            const resultsSection = document.getElementById('resultsSection');
+            const changeBtn = document.getElementById('changeBtn');
+            const confirmBtn = document.getElementById('confirmBtn');
+            
+            const selections = {
+                'head-boy': null,
+                'deputy-head-boy': null,
+                'head-girl': null,
+                'deputy-head-girl': null
+            };
+            
+            // Add click event to all options
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    const value = this.dataset.value;
+                    
+                    // Remove selected class from all options in this category
+                    document.querySelectorAll(`.option[data-category="${category}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Store selection
+                    selections[category] = value;
+                    
+                    // Check if all categories have a selection
+                    checkSelections();
+                });
+            });
+            
+            // Check if all categories have a selection
+            function checkSelections() {
+                const allSelected = Object.values(selections).every(value => value !== null);
+                submitBtn.disabled = !allSelected;
+            }
+            
+            // Submit button click event
+            submitBtn.addEventListener('click', function() {
+                // Update results display
+                document.getElementById('head-boy-selection').textContent = formatSelection(selections['head-boy']);
+                document.getElementById('deputy-head-boy-selection').textContent = formatSelection(selections['deputy-head-boy']);
+                document.getElementById('head-girl-selection').textContent = formatSelection(selections['head-girl']);
+                document.getElementById('deputy-head-girl-selection').textContent = formatSelection(selections['deputy-head-girl']);
+                
+                // Show results section
+                resultsSection.style.display = 'block';
+                
+                // Scroll to results
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Change button click event
+            changeBtn.addEventListener('click', function() {
+                // Hide results section
+                resultsSection.style.display = 'none';
+            });
+            
+            // Confirm button click event
+            confirmBtn.addEventListener('click', function() {
+                alert('Your selections have been submitted successfully!');
+                // Here you would typically send the data to a server
+                console.log('Selections:', selections);
+            });
+            
+            // Format selection for display
+            function formatSelection(value) {
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            }
+        });
+    </script>
+</body>
+</html>
+
