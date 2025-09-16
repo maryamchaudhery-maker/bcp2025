@@ -343,6 +343,14 @@
             margin-bottom: 8px;
         }
         
+        .device-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #2196f3;
+        }
+        
         footer {
             text-align: center;
             padding: 20px;
@@ -402,10 +410,16 @@
                     <h4>Instructions for Admin:</h4>
                     <ul>
                         <li>Enter the admin password (default: admin123)</li>
-                        <li>Enter all student IDs, one per line</li>
+                        <li>Enter all student IDs, one per line (up to 94 students)</li>
                         <li>Click "Setup Election" to initialize the voting system</li>
                         <li>Share the voting URL with students: <span id="voteUrl"></span></li>
                     </ul>
+                </div>
+                
+                <div class="device-info">
+                    <h4>Multi-Device Setup:</h4>
+                    <p>This system supports multiple voting devices. You can set up 4 laptops with the same URL, and 94 students can vote one after another.</p>
+                    <p>After each vote, the student should click "Logout" to allow the next student to vote on the same device.</p>
                 </div>
             </div>
             
@@ -418,6 +432,14 @@
                 </div>
                 <button id="loginBtn">Login to Vote</button>
                 <p class="error" id="loginError"></p>
+                
+                <div class="device-info">
+                    <h4>Voting Instructions:</h4>
+                    <p>1. Enter your student ID and click "Login to Vote"</p>
+                    <p>2. Select one symbol from each of the four categories</p>
+                    <p>3. Click "Cast Vote" to submit your choices</p>
+                    <p>4. After voting, click "Logout" to allow the next student to use this device</p>
+                </div>
             </div>
             
             <!-- Voting Section -->
@@ -635,12 +657,12 @@
         
         <footer>
             <p>© 2023 School Student Council Elections. All rights reserved.</p>
-            <p>Each student can vote only once. Multiple students can vote from different devices.</p>
+            <p>Each student can vote only once. System supports multiple voting devices.</p>
         </footer>
     </div>
 
     <script>
-        // Enhanced database using localStorage with support for multiple categories
+        // Enhanced database using localStorage with support for multiple categories and devices
         function initializeDatabase() {
             if (!localStorage.getItem('votes')) {
                 localStorage.setItem('votes', JSON.stringify({
@@ -742,11 +764,16 @@
                 return;
             }
             
+            if (ids.length > 94) {
+                adminError.textContent = 'Maximum 94 students allowed';
+                return;
+            }
+            
             localStorage.setItem('studentList', JSON.stringify(ids));
             localStorage.setItem('electionSetup', JSON.stringify(true));
             
             adminError.textContent = '';
-            adminSuccess.textContent = 'Election setup successfully! Students can now vote.';
+            adminSuccess.textContent = `Election setup successfully for ${ids.length} students! Students can now vote.`;
             
             // Show login section after a delay
             setTimeout(() => {
@@ -875,7 +902,7 @@
             localStorage.setItem('votedStudents', JSON.stringify(votedStudents));
             
             // Show success message
-            voteSuccess.textContent = 'Your vote has been cast successfully!';
+            voteSuccess.textContent = 'Your vote has been cast successfully! Please logout to allow the next student to vote.';
             voteError.textContent = '';
             
             // Update results display
